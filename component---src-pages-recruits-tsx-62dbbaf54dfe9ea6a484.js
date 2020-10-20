@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{"35d7":function(e,t,a){"use strict";a.r(t),a.d(t,"pageQuery",(function(){return c}));var n=a("q1tI"),l=a.n(n),o=a("9Dj+"),r=a("H8eV");t.default=function(e){var t=e.data,a=e.location,n=t.site.siteMetadata.title;return console.log(t,a),l.a.createElement(o.a,{location:a,title:n},l.a.createElement(r.a,{title:"해외송금 모인 개발 블로그"}),l.a.createElement("h1",null,"채용 방식 소개?"),l.a.createElement("h1",null,"기업 문화 소개 로켓펀치 링크?"))};var c="3159585216"}}]);
+//# sourceMappingURL=component---src-pages-recruits-tsx-62dbbaf54dfe9ea6a484.js.map
