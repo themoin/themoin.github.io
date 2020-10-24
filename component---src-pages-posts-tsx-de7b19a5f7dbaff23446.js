@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[7],{PJ8K:function(n,e,t){"use strict";t.r(e);var u=t("q1tI"),a=t.n(u);e.default=function(){return a.a.createElement("h1",null,"포스츠")}}}]);
-//# sourceMappingURL=component---src-pages-posts-tsx-de7b19a5f7dbaff23446.js.map

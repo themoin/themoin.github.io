@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/pages/posts.tsx"],"names":["posts"],"mappings":"2FAAA,gCAMeA,UAJD,WACZ,OAAO","file":"component---src-pages-posts-tsx-de7b19a5f7dbaff23446.js","sourcesContent":["import React from 'react'\n\nconst posts = () => {\n  return <h1>포스츠</h1>\n}\n\nexport default posts\n"],"sourceRoot":""}

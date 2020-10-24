@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{"2l/u":function(e,t,a){"use strict";a.r(t),a.d(t,"pageQuery",(function(){return r}));var n=a("q1tI"),l=a.n(n),o=a("9Dj+"),i=a("H8eV");t.default=function(e){var t=e.data,a=e.location,n=t.site.siteMetadata.title;return console.log(t,a),l.a.createElement(o.a,{location:a,title:n},l.a.createElement(i.a,{title:"해외송금 모인 개발 블로그"}),l.a.createElement("h1",null,"모인 회사 소개? 혹은 개발팀 소개? 혹은 개발 블로그 소개?"))};var r="3159585216"}}]);
-//# sourceMappingURL=component---src-pages-about-tsx-50e54fd4ecbcd350c2fe.js.map
