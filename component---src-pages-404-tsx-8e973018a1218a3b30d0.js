@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{"i6+/":function(t,e,a){"use strict";a.r(e),a.d(e,"pageQuery",(function(){return r}));var n=a("q1tI"),o=a.n(n),i=a("9Dj+"),l=a("H8eV");e.default=function(t){var e=t.data,a=t.location,n=e.site.siteMetadata.title;return o.a.createElement(i.a,{location:a,title:n},o.a.createElement(l.a,{title:"404: Not Found"}),o.a.createElement("h1",null,"404: Not Found"),o.a.createElement("p",null,"찾으시는 경로에 페이지가 없습니다."))};var r="3159585216"}}]);
+//# sourceMappingURL=component---src-pages-404-tsx-8e973018a1218a3b30d0.js.map
