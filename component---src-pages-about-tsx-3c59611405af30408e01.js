@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{"2l/u":function(t,n,o){"use strict";o.r(n),o.d(n,"pageQuery",(function(){return e}));o("vOnD").a.section.withConfig({displayName:"about__AboutSection",componentId:"ekruy3-0"})(["padding-top:7%;& > h1{color:#2f2f2f;font-weight:400;}& > h2{font-weight:300;}"]);n.default=function(t){var n=t.data;t.location,n.site.siteMetadata.title;return null};var e="3159585216"}}]);
+//# sourceMappingURL=component---src-pages-about-tsx-3c59611405af30408e01.js.map
