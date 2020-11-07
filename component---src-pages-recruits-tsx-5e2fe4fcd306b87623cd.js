@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[9],{"35d7":function(t,e,a){"use strict";a.r(e),a.d(e,"pageQuery",(function(){return c}));var n=a("q1tI"),o=a.n(n),i=a("9Dj+"),r=a("H8eV");e.default=function(t){var e=t.data,a=t.location,n=e.site.siteMetadata.title;return console.log(e,a),o.a.createElement(i.a,{location:a,title:n},o.a.createElement(r.a,{title:"해외송금 모인 개발 블로그"}))};var c="3159585216"}}]);
-//# sourceMappingURL=component---src-pages-recruits-tsx-5e2fe4fcd306b87623cd.js.map

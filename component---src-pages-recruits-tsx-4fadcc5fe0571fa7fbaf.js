@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[7],{"35d7":function(t,n,a){"use strict";a.r(n),a.d(n,"pageQuery",(function(){return e}));n.default=function(t){var n=t.data;t.location,n.site.siteMetadata.title;return null};var e="3159585216"}}]);
-//# sourceMappingURL=component---src-pages-recruits-tsx-4fadcc5fe0571fa7fbaf.js.map
