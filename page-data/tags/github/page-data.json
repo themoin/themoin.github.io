@@ -1,0 +1,1 @@
+{"componentChunkName":"component---src-templates-tags-tsx","path":"/tags/github/","result":{"data":{"allMarkdownRemark":{"totalCount":1,"edges":[{"node":{"fields":{"slug":"/2020-11-09-github-action-1-nodejs-private-package-cicd/"},"frontmatter":{"title":"Github Action 도입기 1- NodeJS Private Package 배포 CI/CD "}}}]}},"pageContext":{"tag":"Github"}},"staticQueryHashes":[]}
