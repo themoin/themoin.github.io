@@ -1,11 +1,1 @@
-{
-  "data": {
-    "avatar": null,
-    "site": {
-      "siteMetadata": {
-        "author": { "name": "모인 개발팀", "summary": "해외 송금 모인" },
-        "social": null
-      }
-    }
-  }
-}
+{"data":{"avatar":null,"site":{"siteMetadata":{"author":{"name":"모인 개발팀","summary":"해외 송금 모인"},"social":null}}}}
